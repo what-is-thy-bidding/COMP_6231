@@ -25,7 +25,7 @@ public class COMP_Server {
 	}
 	public static void add_courses(){ //--------------------------> Addition of all courses in the server
 		//courses_availability fall_6231 = new courses_availability("COMP 6231", "FALL",0);
-		courses_availability winter_6231 = new courses_availability("COMP 6231", "WINTER",2);
+		courses_availability winter_6231 = new courses_availability("COMP 6231", "WINTER",4);
 		//courses_availability summer_6231 = new courses_availability("COMP 6231", "SUMMER",3);
 		//courses.add(fall_6231);
 		courses.add(winter_6231);
@@ -40,10 +40,14 @@ public class COMP_Server {
 
 	}
 	public static void add_student(){//---------------------------->Default addition of a STUDENT to the database
-		data_structure node=new data_structure("COMPS");
+		data_structure node=new data_structure("COMPS1010");
 		comp_student_list.addLast(node);
-		data_structure node2= new data_structure("COMPS1212");
+		data_structure node2= new data_structure("COMPS1111");
 		comp_student_list.addLast(node2);
+		data_structure node3= new data_structure("COMPS1212");
+		comp_student_list.addLast(node3);
+		data_structure node4= new data_structure("COMPS1313");
+		comp_student_list.addLast(node4);
 	}
 	
 	private static String new_course(String data) { //------------->ADVISOR ADDING A NEW COURSE

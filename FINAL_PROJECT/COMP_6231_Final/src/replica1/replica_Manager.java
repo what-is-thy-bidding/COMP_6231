@@ -282,6 +282,9 @@ public class replica_Manager {
 									result= request_inse(request.get_request());
 									request.set_result(true);
 								}
+								else {
+									request.set_result(true);// for VIDA'S code to add a new student
+								}
 							
 							
 							
