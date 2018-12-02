@@ -79,7 +79,7 @@ public class FRONT_END {
 	
 	static File file1= new File("frontEnd_requests.txt");
 	static int request_id=0;
-	public static String result="&&&&"; 
+	public static String result=""; 
 	//public static boolean skip=true;
 	public static int check_id=0; 
 	public static int execution=0;
@@ -186,7 +186,7 @@ public class FRONT_END {
 
 	}	
 	
-	
+	 
 	public static LinkedList<replica_replies> replies= new LinkedList<replica_replies>();
 	
 	// if the size of the list has gotten more than 3, then there is an error
@@ -341,13 +341,13 @@ public class FRONT_END {
 		
 		if(replies.isEmpty()) { // if the list is empty
 			replica_replies node=new replica_replies();
-			if(reply.get_replica_id()==1 && reply.FRONT_END_INSERTION==true/**/) {
+			if(reply.get_replica_id()==1 && reply.FRONT_END_INSERTION==true) {
 				node.REPLICA1_reply= reply;
 				node.request_number= reply.get_request_id();
 				node.replica_1=true;
 				replies.add(node);
 				System.out.println("1st insertion");
-			}else if(reply.get_replica_id()==2 && reply.FRONT_END_INSERTION==true/**/) {
+			}/*else if(reply.get_replica_id()==2 && reply.FRONT_END_INSERTION==true) {
 				node.REPLICA2_reply= reply;
 				node.request_number= reply.get_request_id();
 				node.replica_2=true;
@@ -365,34 +365,34 @@ public class FRONT_END {
 				node.replica_4=true;
 				replies.add(node);
 				System.out.println("1st insertion");
-			}
+			}*/
 			
 		}else {// if the list contains at least 1 node
 			boolean check=false;
 			for(int i=0;i<replies.size(); i++) {
-				if(replies.get(i).request_number==reply.get_request_id() && reply.FRONT_END_INSERTION==true/**/) {// reply has a request number matches then it means that REPLICA1_reply or REPLICA2_reply is already inserted
+				if(replies.get(i).request_number==reply.get_request_id() && reply.FRONT_END_INSERTION==true) {// reply has a request number matches then it means that REPLICA1_reply or REPLICA2_reply is already inserted
 					check=true;
 					if(reply.get_replica_id()==1) {
 						replies.get(i).REPLICA1_reply=reply;
 						replies.get(i).replica_1=true;
 						System.out.println("2nd insertion");
 						break;
-					}else if(reply.get_replica_id()==2 && reply.FRONT_END_INSERTION==true/**/) {
+					}/*else if(reply.get_replica_id()==2 && reply.FRONT_END_INSERTION==true) {
 						replies.get(i).REPLICA2_reply=reply;
 						replies.get(i).replica_2=true;
 						System.out.println("2nd insertion");
 						break;
-					}else if(reply.get_replica_id()==3 && reply.FRONT_END_INSERTION==true/**/) {
+					}else if(reply.get_replica_id()==3 && reply.FRONT_END_INSERTION==true) {
 						replies.get(i).REPLICA3_reply=reply;
 						replies.get(i).replica_3=true;
 						System.out.println("2nd insertion");
 						break;
-					}else if(reply.get_replica_id()==4 && reply.FRONT_END_INSERTION==true/**/) {
+					}else if(reply.get_replica_id()==4 && reply.FRONT_END_INSERTION==true) {
 						replies.get(i).REPLICA4_reply=reply;
 						replies.get(i).replica_4=true;
 						System.out.println("2nd insertion");
 						break;
-					}
+					}*/
 					
 					
 				}
@@ -403,27 +403,27 @@ public class FRONT_END {
 				replica_replies node=new replica_replies();
 				
 				
-				if(reply.get_replica_id()==1 && reply.FRONT_END_INSERTION==true/**/) {
+				if(reply.get_replica_id()==1 && reply.FRONT_END_INSERTION==true) {
 					node.REPLICA1_reply= reply;
 					node.request_number= reply.get_request_id();
 					node.replica_1=true;
 					replies.addLast(node);
-				}else if(reply.get_replica_id()==2 && reply.FRONT_END_INSERTION==true/**/) {
+				}/*else if(reply.get_replica_id()==2 && reply.FRONT_END_INSERTION==true) {
 					node.REPLICA2_reply= reply;
 					node.request_number= reply.get_request_id();
 					node.replica_2=true;
 					replies.addLast(node);
-				}else if(reply.get_replica_id()==3 && reply.FRONT_END_INSERTION==true/**/) {
+				}else if(reply.get_replica_id()==3 && reply.FRONT_END_INSERTION==true) {
 					node.REPLICA3_reply= reply;
 					node.request_number= reply.get_request_id();
 					node.replica_3=true;
 					replies.addLast(node);
-				}else if(reply.get_replica_id()==4 && reply.FRONT_END_INSERTION==true/**/) {
+				}else if(reply.get_replica_id()==4 && reply.FRONT_END_INSERTION==true) {
 					node.REPLICA4_reply= reply;
 					node.request_number= reply.get_request_id();
 					node.replica_4=true;
 					replies.addLast(node);
-				}
+				}*/
 					
 			}
 			
@@ -448,7 +448,7 @@ public class FRONT_END {
 				System.out.println("REPLICA 1 DATA: REQUEST- "+replies.get(i).REPLICA1_reply.get_request()+", REPLICA ID- "+ replies.get(i).REPLICA1_reply.get_replica_id()+", REPLICA BOOLEAN- " +replies.get(i).replica_1);
 
 			}
-			if(replies.get(i).replica_2) {
+			/*if(replies.get(i).replica_2) {
 				System.out.println("REPLICA 2 DATA: REQUEST- "+replies.get(i).REPLICA2_reply.get_request()+", REPLICA ID- "+ replies.get(i).REPLICA2_reply.get_replica_id()+", REPLICA BOOLEAN- " +replies.get(i).replica_2);
 			}
 			System.out.println();	
@@ -459,7 +459,7 @@ public class FRONT_END {
 			if(replies.get(i).replica_4) {
 				System.out.println("REPLICA 4 DATA: REQUEST- "+replies.get(i).REPLICA4_reply.get_request()+", REPLICA ID- "+ replies.get(i).REPLICA4_reply.get_replica_id()+", REPLICA BOOLEAN- " +replies.get(i).replica_4);
 			}
-			System.out.println();	
+			System.out.println();	*/
 		}
 		
 		System.out.println("---------------end of list---------------------");
@@ -500,14 +500,7 @@ public class FRONT_END {
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}				
-				
-				
-				//input="";
-				//return input;
-				//sendData=input.getBytes();
-				//DatagramPacket reply = new DatagramPacket(sendData, sendData.length, request.getAddress(),request.getPort());
-				//aSocket.send(reply);// reply sent
-				
+
 			}
 			
 		}catch (SocketException e) {
@@ -531,19 +524,12 @@ public class FRONT_END {
 			aSocket=new MulticastSocket(5555);// The REPLICA port numbers
 			aSocket.joinGroup(group);
 			byte[] buffer= new byte[1000];
-			//byte[] sendData= new byte[1000];
 				DatagramPacket request= new DatagramPacket(buffer, buffer.length); 
 				aSocket.receive(request);
 				buffer=request.getData();
 				ByteArrayInputStream in = new ByteArrayInputStream(buffer);
 				ObjectInputStream is = new ObjectInputStream(in);
-				//System.out.println("FRONT END PULSE CHECKER-"+ (String)is.readObject());
 				return (String)is.readObject();
-				//input="";
-				//return input;
-				//sendData=input.getBytes();
-				//DatagramPacket reply = new DatagramPacket(sendData, sendData.length, request.getAddress(),request.getPort());
-				//aSocket.send(reply);// reply sent
 			
 		}catch (SocketException e) {
 			System.out.println("Socket: " + e.getMessage()+" FRONT END");
@@ -713,40 +699,31 @@ public class FRONT_END {
 		//if both the booleans are true then compare the results and send the common answer
 		// find the size of the list and if the ones in the beginning aren't getting a reply then send error messages for the previous requests
 		for(int i=0; i<replies.size(); i++) {
-			if(replies.get(i).replica_1==true && replies.get(i).replica_2==true && replies.get(i).replica_3==true && replies.get(i).replica_4==true) {
+			//if(replies.get(i).replica_1==true && replies.get(i).replica_2==true && replies.get(i).replica_3==true && replies.get(i).replica_4==true) {
 				//if(replies.get(i).REPLICA1_reply.get_request().equals(replies.get(i).REPLICA2_reply.get_request())) {// this is if the reply that have arrived match each other
 					System.out.println(" THE REQUEST REPLIES CAN BE SENT TO THE CLIENT");
-					System.out.println(replies.get(i).REPLICA1_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA1_reply.get_replica_id());
-					System.out.println(replies.get(i).REPLICA2_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA2_reply.get_replica_id());
-					System.out.println(replies.get(i).REPLICA3_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA3_reply.get_replica_id());
-					System.out.println(replies.get(i).REPLICA4_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA4_reply.get_replica_id());
+					//System.out.println(replies.get(i).REPLICA1_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA1_reply.get_replica_id());
+					//System.out.println(replies.get(i).REPLICA2_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA2_reply.get_replica_id());
+					//System.out.println(replies.get(i).REPLICA3_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA3_reply.get_replica_id());
+					//System.out.println(replies.get(i).REPLICA4_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA4_reply.get_replica_id());
 
 					result= replies.get(i).REPLICA1_reply.get_request();					
 				//}
 				replies.remove(i);
 				System.out.println(replies.size()+ " the size of the list after deletion");
-				return result;
-				//break;
-			}
+				//String final_result=result;
+				//result="&&&&";
+				//System.out.println(" final_result -> "+ final_result+ " new res -> "+ result);
+				//return final_result;
+				//break; 
+			//}
 		}
+		
 		return result;
 	}
 	
 	
 	
-	
-	public static String send_command(String command) {
-
-		send_sequencer_request(command);
-		//System.out.println("is the code even reaching here???? ");
-		//System.out.println(final_result()+" >>>>>>>>>>>>>>>>>>>>>>>>>>");
-		while(result.contains("&")) {
-			
-		}
-		String retval= result;
-		result="&&&&";
-		return retval;
-	} 
 
 	
 	
@@ -754,7 +731,7 @@ public class FRONT_END {
 		System.out.println("THE frontEnd_requests.txt is being deleted");
 		    PrintWriter writer= new PrintWriter(file1);
 		    writer.print("");
-		    writer.close();/**/
+		    writer.close();
 		
 		System.out.println("UDP unicast listener Started.... FRONT_END");
 		Runnable task1 = () -> { 
@@ -764,7 +741,7 @@ public class FRONT_END {
         thread.start(); 
         	
         	
-       /* */		
+       /* 		
             
         
        
@@ -788,9 +765,9 @@ public class FRONT_END {
         } 
         sc.close();
   
-   
+   */
          
-      /* 
+       
         ORB orb = ORB.init(args, null);
 		// get reference to rootpoa &amp; activate
 		try {
@@ -818,13 +795,15 @@ public class FRONT_END {
 
 			// wait for invocations from clients 
 				orb.run(); 
+			
+			 
 		}
 		  
 
 		catch (Exception e) {
 			System.err.println("ERROR: " + e);
 			e.printStackTrace(System.out); 
-		} */
+		}/* */
 
 		System.out.println("HelloServer Exiting ..."); 
 	}

@@ -165,14 +165,31 @@ public class replica_Manager {
 							
 							if(request.get_request().contains("COMPA")) {
 								// new course, delete course, course_availability
-								
 								result = request_comp(request.get_request());								
-								request.set_command(result);
 								
+								
+								if(request.get_request().contains("add")) {
+									if(result.contains("Course has been added")) {
+										request.set_result(true);
+									}else {
+										request.set_result(false);
+									}
+								}if(request.get_request().contains("delete")) {
+									//The course has been deleted
+									if(result.contains("The course has been deleted")) {
+										request.set_result(true);
+									}else {
+										request.set_result(false);
+									}
+								}if(request.get_request().contains("course_availability")) {
+									request.set_result(true);
+								}
+								
+								request.set_command(result);
 
 							}else if(request.get_request().contains("COMPS")) {
-								// add course, drop course, course_availability, list_courses, swap course
-								if(request.get_request().contains("add")) {
+								// enroll course, drop course, course_availability, list_courses, swap course
+								if(request.get_request().contains("enroll")) {
 									result = request_comp(request.get_request());	
 									if(result.contains("Course Added to the Fall semester")||result.contains("Course Added to the Winter semester")||result.contains("Course Added to the Summer semester")) {
 										request.set_result(true);
@@ -190,29 +207,155 @@ public class replica_Manager {
 									}
 								}
 								
+								if(request.get_request().contains("course_availability")) {
+									result = request_comp(request.get_request());
+									result+="\n" + request_inse(request.get_request());
+									result+="\n"+ request_soen(request.get_request());
+									
+									request.set_result(true);
+								}
+								
+								if(request.get_request().contains("list_courses")) {
+									result= request_comp(request.get_request());
+									request.set_result(true);
+								}
+								
 															
 								request.set_command(result);
 
 							}
 						
 						}else if(request.get_request().contains("INSES")||request.get_request().contains("INSEA")) {
+							if(request.get_request().contains("INSEA")) {
+								// new course, delete course, course_availability
+								result = request_inse(request.get_request());								
+								
+								
+								if(request.get_request().contains("add")) {
+									if(result.contains("Course has been added")) {
+										request.set_result(true);
+									}else {
+										request.set_result(false);
+									}
+								}if(request.get_request().contains("delete")) {
+									//The course has been deleted
+									if(result.contains("The course has been deleted")) {
+										request.set_result(true);
+									}else {
+										request.set_result(false);
+									}
+								}if(request.get_request().contains("course_availability")) {
+									request.set_result(true);
+								}
+								
+								request.set_command(result);
+								
+								
+							}else if(request.get_request().contains("INSES")) {
+								// enroll course, drop course, course_availability, list_courses, swap course								
+								if(request.get_request().contains("enroll")) {
+									result = request_inse(request.get_request());	
+									if(result.contains("Course Added to the Fall semester")||result.contains("Course Added to the Winter semester")||result.contains("Course Added to the Summer semester")) {
+										request.set_result(true);
+									}else {
+										request.set_result(false);
+									}
+								}
 							
-							request.set_command(request_soen(request.get_request()));
+								if(request.get_request().contains("drop")) {
+									result = request_inse(request.get_request());	
+									if(result.contains("COURSE DELETED")) {
+										request.set_result(true);
+									}else {
+										request.set_result(false);
+									}
+								}
+							
+								if(request.get_request().contains("course_availability")) {
+									result = request_comp(request.get_request());
+									result+="\n" + request_inse(request.get_request());
+									result+="\n"+ request_soen(request.get_request());
+								
+									request.set_result(true);
+								}
+								if(request.get_request().contains("list_courses")) {
+									result= request_inse(request.get_request());
+									request.set_result(true);
+								}
+							
+							
+							
+								request.set_command(result);
+							}
+								
 
 						}else if(request.get_request().contains("SOENS")|| request.get_request().contains("SOENA")) {
-							request.set_command(request_soen(request.get_request()));
-
+								
+							if(request.get_request().contains("SOENA")) {
+								// new course, delete course, course_availability
+								result = request_soen(request.get_request());								
+								
+								
+								if(request.get_request().contains("add")) {
+									if(result.contains("Course has been added")) {
+										request.set_result(true);
+									}else {
+										request.set_result(false);
+									}
+								}if(request.get_request().contains("delete")) {
+									//The course has been deleted
+									if(result.contains("The course has been deleted")) {
+										request.set_result(true);
+									}else {
+										request.set_result(false);
+									}
+								}if(request.get_request().contains("course_availability")) {
+									request.set_result(true);
+								}
+								
+								request.set_command(result);
+								
+							}else if(request.get_request().contains("SOENS")) {
+								if(request.get_request().contains("enroll")) {
+										result = request_soen(request.get_request());	
+										if(result.contains("Course Added to the Fall semester")||result.contains("Course Added to the Winter semester")||result.contains("Course Added to the Summer semester")) {
+										request.set_result(true);
+										}else {
+											request.set_result(false);
+										}
+									}
+							
+								if(request.get_request().contains("drop")) {
+									result = request_soen(request.get_request());	
+									if(result.contains("COURSE DELETED")) {
+										request.set_result(true);
+									}else {
+										request.set_result(false);
+									}
+								}
+								
+								if(request.get_request().contains("course_availability")) {
+									result = request_comp(request.get_request());
+									result+="\n" + request_inse(request.get_request());
+									result+="\n"+ request_soen(request.get_request());
+								
+									request.set_result(true);
+								}
+								if(request.get_request().contains("list_courses")) {
+									result= request_soen(request.get_request());
+									request.set_result(true);
+								}
+								
+							
+							
+								request.set_command(result);
+							}
 						}
+								
 						
-						//System.out.println(request_comp("course_availability")+"\n"+request_soen("course_availability")+"\n"+request_inse("course_availability")+"\n");
-						//request.set_command(request_comp("course_availability")+"\n"+request_soen("course_availability")+"\n"+request_inse("course_availability")+"\n".trim());
-						//System.out.println(request.get_request()+" **************");
+						
 						udp_unicast_send(request);//send reply to the  FRONT END
 						
-						/*request_information test= new request_information();
-						test.set_replica(1);
-						test.set_command(request_comp("course_availability")+"\n"+request_soen("course_availability")+"\n"+request_inse("course_availability")+"\n");
-						udp_unicast_send(test);*/
 						
 					} catch (ClassNotFoundException e) {
 						e.printStackTrace();
@@ -260,11 +403,6 @@ public class replica_Manager {
 				}				
 				
 				
-				//input="";
-				//return input;
-				//sendData=input.getBytes();
-				//DatagramPacket reply = new DatagramPacket(sendData, sendData.length, request.getAddress(),request.getPort());
-				//aSocket.send(reply);// reply sent
 				
 			}
 			

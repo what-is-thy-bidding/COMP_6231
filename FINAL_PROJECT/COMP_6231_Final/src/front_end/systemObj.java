@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 public class systemObj extends systemPOA { 
 	private ORB orb;
-	public void setORB(ORB orb_val) {
+	public void setORB(ORB orb_val) { 
 		orb = orb_val;  
 	}
 
@@ -63,7 +63,7 @@ public class systemObj extends systemPOA {
 			return result;*/
 		
 		FRONT_END.send_sequencer_request(command);
-		return FRONT_END.final_result();
+		return "";
 		
 	} 
 	
@@ -164,7 +164,7 @@ public class systemObj extends systemPOA {
 		//String result="";
 		//FRONT_END.send_sequencer_request(command);
 		FRONT_END.send_sequencer_request(command);	
-		return FRONT_END.final_result(); 
+		return ""; 
 	}
 
 	public String drop_course(String command) {
@@ -226,7 +226,7 @@ public class systemObj extends systemPOA {
 		}
 		return command;*/
 		FRONT_END.send_sequencer_request(command);
-		return FRONT_END.final_result();
+		return "";
 	}
 
 	public String new_course(String command) {
@@ -297,7 +297,7 @@ public class systemObj extends systemPOA {
 			
 			
 		FRONT_END.send_sequencer_request(command);
-		return FRONT_END.final_result();
+		return "";
 	}
 
 	public String delete_course(String command) {
@@ -330,7 +330,7 @@ public class systemObj extends systemPOA {
 		
 		
 		FRONT_END.send_sequencer_request(command);
-		return FRONT_END.final_result();
+		return "";
 	}
 
 
@@ -370,13 +370,13 @@ public class systemObj extends systemPOA {
 		
 		
 		FRONT_END.send_sequencer_request(command);
-		return FRONT_END.final_result();
+		return "";
 	}
 
 	
 	public String final_result() {
 		return FRONT_END.final_result();
-	}
+	} 
 	
 	public String swap_course(String enrolled, String swap) {
 		//array[0] -> "add"
@@ -414,7 +414,7 @@ public class systemObj extends systemPOA {
 		return result;*/
 		FRONT_END.send_sequencer_request(enrolled);
 		FRONT_END.send_sequencer_request(swap);
-		return FRONT_END.final_result();
+		return "";
 	}
 
 	

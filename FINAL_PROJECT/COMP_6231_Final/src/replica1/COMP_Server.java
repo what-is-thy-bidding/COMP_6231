@@ -78,10 +78,10 @@ public class COMP_Server {
 		}
 	}
 	
-	private static String delete_course(String input) {//----------->ADVISOR DELETING A COURSE
+	private static String delete_course(String input) {//----------->ADVISOR DELETING A COURSE	
 		String array[] = input.split(" ");
 		//array[0] -> "delete"
-		//array[1] -> "COMPS/COMPA" (USERID)
+		//array[1] -> "COMPA" (USERID)
 		//array[2] -> "COMP"  (COURSE SUBJECT NAME)
 		//array[3] -> "6231"  (COURSE CODE)
 		//array[4] -> "FALL"  (TERM)
@@ -643,7 +643,7 @@ public class COMP_Server {
 							if(!array[2].equals("COMP")){
 								data=array[1]+"("+CourseId+" "+array[4]+ "): cannot delete that course- INCORRECT DEPARTMENT ";
 							}else{
-								delete_course(input);
+								data=delete_course(input);
 							}
 						}else if((userId.contains("SOENA")||userId.contains("INSEA")) && command.equals("delete")){
 							//A DELETION of all the the SOEN and INSE courses from all COMPSXXXX students
@@ -660,6 +660,8 @@ public class COMP_Server {
 								}
 							}
 							
+						}else {
+							data="INCORRECT INPUT";
 						}
 					}else if(length==6) {//new course function
 						String command=array[0];    // "add"
@@ -679,9 +681,9 @@ public class COMP_Server {
 					String array[]= input.split(" ");
 					int length= array.length;
 				
-					if(length==1) {//just the list course_availability && the ID check of the student
+					if(length==2) {//just the list course_availability && the ID check of the student
 						String command= array[0]; // "COMPS"/"SOENS"/"INSES"/"course_avaiability"
-						
+						String function= array[1];// "list_courses"
 							
 						if(command.contains("COMPS")) {
 							data=extract_student_information(command);
@@ -696,7 +698,7 @@ public class COMP_Server {
 						String term=array[4];       // "FALL"/"WINTER/"SUMMER"
 						
 						if(userId.contains("COMPS")) {
-							if(department.contains("COMP") && command.equals("add")) {
+							if(department.contains("COMP") && command.equals("enroll")) {
 								int i=0;
 								
 								while(i<comp_student_list.size()) {
@@ -708,14 +710,14 @@ public class COMP_Server {
 								
 							}else if(department.contains("COMP")&& command.equals("drop")) {
 								data=drop_course(input);
-							}else if(department.contains("INSE")&& command.equals("add")) {
+							}else if(department.contains("INSE")&& command.equals("enroll")) {
 								data=request_inse(input);
 								data=data.trim();
 								if(data.equals("true")) {
 									data=add_INSE_course(input);
 									data=data.trim();
 									if(!data.equals("Course Added to the Fall semester")&& !data.equals("Course Added to the Winter semester")&& !data.equals("Course Added to the Summer semester")) {
-										input=input.replace("add", "drop");
+										input=input.replace("enroll", "drop");
 										request_inse(input);
 									}
 								}
@@ -725,14 +727,14 @@ public class COMP_Server {
 									request_inse(input);
 								}
 							
-							}else if(department.contains("SOEN")&& command.equals("add")) {
+							}else if(department.contains("SOEN")&& command.equals("enroll")) {
 								data=request_soen(input);	
 								data=data.trim();
 								if(data.equals("true")) {
 									data=add_SOEN_course(input);
 									data=data.trim();
 									if(!data.equals("Course Added to the Fall semester")&& !data.equals("Course Added to the Winter semester")&& !data.equals("Course Added to the Summer semester")) {
-										input=input.replace("add", "drop");
+										input=input.replace("enroll", "drop");
 										request_soen(input);
 									}
 								}
@@ -743,14 +745,14 @@ public class COMP_Server {
 								}
 							}
 						}else if(userId.contains("INSES")) {
-							if(command.equals("add")) {
+							if(command.equals("enroll")) {
 								data=decrease_availability(input);
 							}else if(command.equals("drop")){
 								data=increase_availability(input);
 							}
 							
 						}else if(userId.contains("SOENS"))
-							if(command.equals("add")) {
+							if(command.equals("enroll")) {
 								data=decrease_availability(input);
 							}else if(command.equals("drop")){
 								data=increase_availability(input);
@@ -761,6 +763,16 @@ public class COMP_Server {
 				
 				if(input.contains("course_availability")) {
 					data=course_availability();				
+				}
+				
+				if(input.contains("list_courses")) {
+					String array[]= input.split(" ");
+					String command= array[0]; // "COMPS"/"SOENS"/"INSES"/"course_avaiability"
+					String function= array[1];// "list_courses"
+						
+					if(command.contains("COMPS")) {
+						data=extract_student_information(command);
+					}
 				}
 				
 				

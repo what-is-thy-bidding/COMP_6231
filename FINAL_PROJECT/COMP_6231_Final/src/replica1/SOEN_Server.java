@@ -583,6 +583,7 @@ public class SOEN_Server {
 				String input=new String(request.getData());//------->ID of the SOEN student/Advisor
 				input=input.trim();
 				System.out.println(input);
+				//----------------------ADVISORS----------------------------------------------------
 				String data = "";
 				if(input.contains("COMPA")||input.contains("SOENA")||input.contains("INSEA")) {
 					String array[]= input.split(" ");
@@ -605,7 +606,7 @@ public class SOEN_Server {
 								data=array[1]+"("+CourseId+" "+array[4]+ "): cannot delete that course- INCORRECT DEPARTMENT ";
 
 							}else{
-								delete_course(input);
+								data=delete_course(input);
 
 							}
 						}else if((userId.contains("INSEA") || userId.contains("COMPA")) && command.equals("delete")){
@@ -644,8 +645,9 @@ public class SOEN_Server {
 					String array[]= input.split(" ");
 					int length= array.length;
 				
-					if(length==1) {//just the list course_availability && the ID check of the student
+					if(length==2) {//just the list course_availability && the ID check of the student
 						String command= array[0];
+						String function= array[1];
 						//data=(input + " "+length);  // "COMPS"/"SOENS"/"INSES"/"course_avaiability"
 						//System.out.println(command);
 						
@@ -663,18 +665,24 @@ public class SOEN_Server {
 						String term=array[4];       // "FALL"/"WINTER/"SUMMER"
 						
 						if(userId.contains("SOENS")) {
-							if(department.contains("SOEN") && command.equals("add")) {
+							if(department.contains("SOEN") && command.equals("enroll")) {
+								int i=0;
+								while(i<soen_student_list.size()) {
+									soen_student_list.get(i).print();
+									i++;
+								}
 								data=add_course(input);
+								i=0;
 							}else if(department.contains("SOEN")&& command.equals("drop")) {
 								data=drop_course(input);
-							}else if(department.contains("INSE")&& command.equals("add")) {
+							}else if(department.contains("INSE")&& command.equals("enroll")) {
 								data=request_inse(input);
 								data=data.trim();
 								if(data.equals("true")) {
 									data=add_INSE_course(input);
 									data=data.trim();
 									if(!data.equals("Course Added to the Fall semester")&& !data.equals("Course Added to the Winter semester")&& !data.equals("Course Added to the Summer semester")) {
-										input=input.replace("add", "drop");
+										input=input.replace("enroll", "drop");
 										request_inse(input);
 									}
 								}
@@ -684,14 +692,14 @@ public class SOEN_Server {
 									request_inse(input);
 								}
 							
-							}else if(department.contains("COMP")&& command.equals("add")) {
+							}else if(department.contains("COMP")&& command.equals("enroll")) {
 								data=request_comp(input);
 								data=data.trim();
 								if(data.equals("true")) {
 									data=add_COMP_course(input);
 									data=data.trim();
 									if(!data.equals("Course Added to the Fall semester")&& !data.equals("Course Added to the Winter semester")&& !data.equals("Course Added to the Summer semester")) {
-										input=input.replace("add", "drop");
+										input=input.replace("enroll", "drop");
 										request_comp(input);
 									}
 								}
@@ -704,14 +712,14 @@ public class SOEN_Server {
 								}
 							}
 						}else if(userId.contains("INSES")) {
-							if(command.equals("add")) {
+							if(command.equals("enroll")) {
 								data=decrease_availability(input);
 							}else if(command.equals("drop")){
 								data=increase_availability(input);
 							}
 							
 						}else if(userId.contains("COMPS"))
-							if(command.equals("add")) {
+							if(command.equals("enroll")) {
 								data=decrease_availability(input);
 							}else if(command.equals("drop")){
 								data=increase_availability(input);
@@ -720,10 +728,19 @@ public class SOEN_Server {
 					}
 				}
 				
-				if(input.equals("course_availability")) {
+				if(input.contains("course_availability")) {
 					data=course_availability();				
 				}
 				
+				if(input.contains("list_courses")) {
+					String array[]= input.split(" ");
+					String command= array[0];
+					String function= array[1];
+					
+					if(command.contains("SOENS")) {
+						data=extract_student_information(command);
+					}
+				}
 				
 				System.out.println(data);
 
