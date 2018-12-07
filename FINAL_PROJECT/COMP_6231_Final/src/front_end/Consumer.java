@@ -1,5 +1,6 @@
 package front_end;
 
+
 class Consumer extends Thread {
 	   private String client;
 
@@ -92,4 +93,26 @@ class Consumer extends Thread {
 		   
 	   }
 	}
+		public static void main(String args[]) {
+			String client[]= {"COMPA","INSEA","SOENS","COMPS","INSES","SOENA"};
+		      int slaveCount = 6;
+		      Thread[] slaves = new Thread[slaveCount];
+		      for(int i = 0; i < slaveCount; i++) {
+		            slaves[i] = new Consumer(client[i]);
+		      }
+		      for(int i = 0; i < slaveCount; i++) {
+		         slaves[i].start();
+		      }
+		      for(int i = 0; i < slaveCount; i++) {
+		         try {
+		            slaves[i].join();
+		         } catch(InterruptedException ie) {
+		               System.err.println(ie.getMessage());
+		         } finally {
+		            System.out.println("slave "+ i+"("+client[i] + ") has died");
+		         }
+		      }
+		      System.out.println();
+		    
+		}
 }

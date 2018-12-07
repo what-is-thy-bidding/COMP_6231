@@ -24,7 +24,7 @@ public class INSE_Server {
 	}
 	public static void add_courses(){ //--------------------------> Addition of all courses in the server
 		
-		courses_availability fall_6110 = new courses_availability("INSE 6110", "FALL",2);
+		/*courses_availability fall_6110 = new courses_availability("INSE 6110", "FALL",2);
 		courses_availability winter_6110 = new courses_availability("INSE 6110", "WINTER",2);
 		courses_availability summer_6110 = new courses_availability("INSE 6110", "SUMMER",3);
 		courses.add(fall_6110);
@@ -36,11 +36,11 @@ public class INSE_Server {
 		courses_availability summer_6150 = new courses_availability("INSE 6150", "SUMMER",1);
 		courses.add(fall_6150);
 		courses.add(winter_6150);
-		courses.add(summer_6150);
+		courses.add(summer_6150);*/
 
 	}
 	public static void add_student(){//---------------------------->Default addition of a STUDENT to the database
-		data_structure node=new data_structure("INSES");
+		data_structure node=new data_structure("INSES1010");
 		inse_student_list.add(node);
 	
 	}
@@ -712,11 +712,11 @@ public class INSE_Server {
 					}
 				}
 				
-				if(input.contains("course_availability")) {
+				if(input.contains("availability")) {
 					data=course_availability();				
 				}
 					
-				if(input.contains("list_courses")) {
+				if(input.contains("schedule")) {
 					String array[]= input.split(" ");
 					String command= array[0]; // "COMPS"/"SOENS"/"INSES"/"course_avaiability"
 					String function= array[1];// "list_courses"

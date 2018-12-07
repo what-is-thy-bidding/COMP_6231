@@ -25,10 +25,10 @@ public class COMP_Server {
 	}
 	public static void add_courses(){ //--------------------------> Addition of all courses in the server
 		//courses_availability fall_6231 = new courses_availability("COMP 6231", "FALL",0);
-		courses_availability winter_6231 = new courses_availability("COMP 6231", "WINTER",4);
+		//courses_availability winter_6231 = new courses_availability("COMP 6231", "WINTER",4);
 		//courses_availability summer_6231 = new courses_availability("COMP 6231", "SUMMER",3);
 		//courses.add(fall_6231);
-		courses.add(winter_6231);
+		//courses.add(winter_6231);
 		//courses.add(summer_6231);
 		
 		//courses_availability fall_6651 = new courses_availability("COMP 6651", "FALL",3);
@@ -42,12 +42,6 @@ public class COMP_Server {
 	public static void add_student(){//---------------------------->Default addition of a STUDENT to the database
 		data_structure node=new data_structure("COMPS1010");
 		comp_student_list.addLast(node);
-		data_structure node2= new data_structure("COMPS1111");
-		comp_student_list.addLast(node2);
-		data_structure node3= new data_structure("COMPS1212");
-		comp_student_list.addLast(node3);
-		data_structure node4= new data_structure("COMPS1313");
-		comp_student_list.addLast(node4);
 	}
 	
 	private static String new_course(String data) { //------------->ADVISOR ADDING A NEW COURSE
@@ -525,6 +519,86 @@ public class COMP_Server {
 	}
 	
 
+	public static String swap_course(String new_course, String old_course) {
+		String result="THE COURSES HAVE BEEN SWAPPED";
+		String result1="";
+		String[] array= new_course.split(" ");
+		String command=array[0];    // "add"/"drop"
+		String userId=array[1];     // "COMPS"/"INSES"/"SOENS"
+		String department=array[2]; // "COMP" /"INSE" /"SOEN"
+		String code=array[3];       // "6231" 
+		String term=array[4];       // "FALL"/"WINTER/"SUMMER"
+		
+		if(department.contains("COMP")&& command.equals("drop")) {
+			result1=drop_course(old_course);
+			System.out.println("the code must now be here " + result1);
+		}else if(department.contains("INSE")&& command.equals("drop")) {
+			result1=drop_INSE_course(old_course);
+			if(result1.equals("COURSE DELETED")) {
+				request_inse(old_course);
+			}
+		
+		}else if(department.contains("SOEN")&& command.equals("drop")) {
+			result1=drop_SOEN_course(old_course);
+			if(result1.equals("COURSE DELETED")) {
+				request_soen(old_course);
+			}
+		}
+		
+		if(result1.contains("COURSE DELETED")) {
+			String[] array1= new_course.split(" ");
+			command=array1[0];    // "add"/"drop"
+			userId=array1[1];     // "COMPS"/"INSES"/"SOENS"
+			department=array1[2]; // "COMP" /"INSE" /"SOEN"
+			code=array1[3];       // "6231" 
+			term=array1[4];       // "FALL"/"WINTER/"SUMMER"
+			
+			if(department.contains("COMP") && command.equals("enroll")) {
+				result1=add_course(new_course);
+				
+			}else if(department.contains("INSE") && command.equals("enroll")) {
+				result1=request_inse(new_course);
+				result1=result1.trim();
+				if(result1.equals("true")) {
+					result1=add_INSE_course(new_course);
+					result1=result1.trim();
+					if(!result1.equals("Course Added to the Fall semester")&& !result1.equals("Course Added to the Winter semester")&& !result1.equals("Course Added to the Summer semester")) {
+						new_course=new_course.replace("enroll", "drop");
+						request_inse(new_course);
+					}
+				}
+			}else if(department.contains("SOEN")&& command.equals("enroll")) {
+				result1=request_soen(new_course);	
+				result1=result1.trim();
+				if(result1.equals("true")) {
+					result1=add_SOEN_course(new_course);
+					result1=result1.trim();
+					if(!result1.equals("Course Added to the Fall semester")&& !result1.equals("Course Added to the Winter semester")&& !result1.equals("Course Added to the Summer semester")) {
+						new_course=new_course.replace("enroll", "drop");
+						request_soen(new_course);
+					}
+				}
+			}	
+		}
+			
+		if(!result1.equals("Course Added to the Fall semester")&& !result1.equals("Course Added to the Winter semester")&& !result1.equals("Course Added to the Summer semester")) {
+			if(department.contains("COMP") && command.equals("enroll")) {
+				result1=add_course(new_course);
+			}else if(department.contains("INSE")) {
+				add_INSE_course(old_course);
+				request_inse(old_course);
+
+			}else if(department.contains("SOEN")) {
+				add_SOEN_course(old_course);
+				request_soen(old_course);
+
+			}
+		}
+
+		
+		return result1;
+	}
+	
 //----------------------------------------------------REQUESTS FROM OTHER SERVER---------------------------------------------------------------------------------------	
 	private static String decrease_availability(String data){//-------------------------------COURSE BEING ADDED FROM DIFFERENT BACKGROUD STUDENT-------------------------------------------
 		try{
@@ -689,12 +763,12 @@ public class COMP_Server {
 						String command= array[0]; // "COMPS"/"SOENS"/"INSES"/"course_avaiability"
 						String function= array[1];// "list_courses"
 							
-						if(command.contains("COMPS")) {
+						if(function.contains("COMPS") && command.contains("schedule")) {
 							data=extract_student_information(command);
 						}
 						
 						
-					}else if(length==5) {//adding a course, dropping a course
+					}else if(length==5) {//enrolling a course, dropping a course
 						String command=array[0];    // "add"/"drop"
 						String userId=array[1];     // "COMPS"/"INSES"/"SOENS"
 						String department=array[2]; // "COMP" /"INSE" /"SOEN"
@@ -705,12 +779,12 @@ public class COMP_Server {
 							if(department.contains("COMP") && command.equals("enroll")) {
 								int i=0;
 								
-								while(i<comp_student_list.size()) {
+								/*while(i<comp_student_list.size()) {
 									comp_student_list.get(i).print();
 									i++;
-								}
+								}*/
 								data=add_course(input);
-								i=0;
+								//i=0;
 								
 							}else if(department.contains("COMP")&& command.equals("drop")) {
 								data=drop_course(input);
@@ -762,20 +836,46 @@ public class COMP_Server {
 								data=increase_availability(input);
 							}
 						
+					}else if(input.contains("swap")) {
+						System.out.println("the code has reached the swap if");
+						String command=array[0];    // "swap"
+						String userId=array[1];     // "COMPS1010"/"INSES1010"/"SOENS1010"
+						
+						String new_department=array[2]; // "COMP" /"INSE" /"SOEN"
+						String new_code=array[3];       // "6231" 
+						String new_term=array[4];       // "FALL"/"WINTER/"SUMMER"
+						
+						String old_department=array[2]; // "COMP" /"INSE" /"SOEN"
+						String old_code=array[3];       // "6231" 
+						String old_term=array[4];       // "FALL"/"WINTER/"SUMMER"
+						
+						String new_course="enroll "+userId +" "+ new_department+" "+new_code+" "+new_term;
+						String old_course="drop "+userId +" "+ old_department+" "+old_code+" "+old_term;
+						
+						if(!new_term.equals(old_term)) {
+							data= "THE TERMS OF THE 2 COURSES HAVE TO BE THE SAME";
+						}else {
+							data=swap_course(new_course, old_course);
+						}
+						//String result1=drop_course(old_course);
+						//String result="THE COURSES HAVE BEEN SWAPPED";
+						
 					}
 				}
 				
-				if(input.contains("course_availability")) {
+				
+				
+				if(input.contains("availability")) {
 					data=course_availability();				
 				}
 				
-				if(input.contains("list_courses")) {
+				if(input.contains("schedule")) {
 					String array[]= input.split(" ");
-					String command= array[0]; // "COMPS"/"SOENS"/"INSES"/"course_avaiability"
-					String function= array[1];// "list_courses"
-						
-					if(command.contains("COMPS")) {
-						data=extract_student_information(command);
+					String command= array[0]; // "schedule"
+					String student_id= array[1];// "COMPS1010"
+					System.out.println(" code is reached here +++++++++++++++++");
+					if(student_id.contains("COMPS")) {
+						data=extract_student_information(student_id);
 					}
 				}
 				

@@ -207,7 +207,7 @@ public class replica_Manager {
 									}
 								}
 								
-								if(request.get_request().contains("course_availability")) {
+								if(request.get_request().contains("availability")) {
 									result = request_comp(request.get_request());
 									result+="\n" + request_inse(request.get_request());
 									result+="\n"+ request_soen(request.get_request());
@@ -215,7 +215,7 @@ public class replica_Manager {
 									request.set_result(true);
 								}
 								
-								if(request.get_request().contains("list_courses")) {
+								if(request.get_request().contains("schedule")) {
 									result= request_comp(request.get_request());
 									request.set_result(true);
 								}
@@ -244,7 +244,7 @@ public class replica_Manager {
 									}else {
 										request.set_result(false);
 									}
-								}if(request.get_request().contains("course_availability")) {
+								}if(request.get_request().contains("availability")) {
 									request.set_result(true);
 								}
 								
@@ -271,14 +271,14 @@ public class replica_Manager {
 									}
 								}
 							
-								if(request.get_request().contains("course_availability")) {
+								if(request.get_request().contains("availability")) {
 									result = request_comp(request.get_request());
 									result+="\n" + request_inse(request.get_request());
 									result+="\n"+ request_soen(request.get_request());
 								
 									request.set_result(true);
 								}
-								if(request.get_request().contains("list_courses")) {
+								if(request.get_request().contains("schedule")) {
 									result= request_inse(request.get_request());
 									request.set_result(true);
 								}
@@ -337,14 +337,14 @@ public class replica_Manager {
 									}
 								}
 								
-								if(request.get_request().contains("course_availability")) {
+								if(request.get_request().contains("availability")) {
 									result = request_comp(request.get_request());
 									result+="\n" + request_inse(request.get_request());
 									result+="\n"+ request_soen(request.get_request());
 								
 									request.set_result(true);
 								}
-								if(request.get_request().contains("list_courses")) {
+								if(request.get_request().contains("schedule")) {
 									result= request_soen(request.get_request());
 									request.set_result(true);
 								}

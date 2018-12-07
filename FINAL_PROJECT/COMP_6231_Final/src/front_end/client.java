@@ -42,7 +42,11 @@ public class client {
 	public static String drop_course(String student_Id, String course_Id ){
 		return "drop "+student_Id+" "+course_Id;
 	} 
-
+	
+	public static String swap_course(String student_Id, String new_course_Id, String old_course_Id) {
+		String result= "swap "+ student_Id+ " "+new_course_Id+" "+old_course_Id;
+		return result;
+	}
 	
 	
 	public static void student_menu(String userId, system sysobj){
@@ -65,10 +69,11 @@ public class client {
 		System.out.println("3. Check Availability"); 
 		System.out.println("4. List Courses");
 		System.out.println("5. Swap Courses");
+		System.out.println("6. FINAL RESULT");
 		System.out.println("0. LOGOUT.");
 		
 	    int ch = sc.nextInt(); 
-	    while(ch!=0){
+	    while(ch!=0){ 
 	    	switch(ch){
 	    		case 1: 
 	    				System.out.println("------------------------------ \n");
@@ -76,11 +81,11 @@ public class client {
 	    				sc=new Scanner(System.in);
 	    				String course_Id = sc.nextLine();
 	    				course_Id=add_course(userId, course_Id );
+	    				System.out.println("THE COMMAND BEING SEND TO FRONT END IS : "+ course_Id);
 	    				sysobj.add_course(course_Id);
-	    				String answer=sysobj.final_result();
-	    				answer=answer.trim();
-						System.out.println(sysobj.final_result().trim());
-	    			    ch=6;  
+	    				//String answer=sysobj.final_result();
+	    				//answer=answer.trim(); 	    				
+	    				ch=7;  
 	    			    break; 
 	    		 
 	    		case 2: 
@@ -88,24 +93,20 @@ public class client {
     					System.out.println("WHICH COURSE_ID TO DROP AND WHICH TERM(eg. COMP 6231 FALL): ");
 						sc=new Scanner(System.in);
 	    				String course_drop = sc.nextLine();
+	    				System.out.println("THE COMMAND BEING SEND TO FRONT END IS : "+ course_drop);
 	    				sysobj.drop_course(drop_course(userId, course_drop));
 	    				
-						System.out.println(sysobj.final_result().trim());
-	    				ch=6;
+						//System.out.println(sysobj.final_result().trim());
+	    				ch=7;
 	    				break; 
 	    		
 	    		case 3: sysobj.course_availability(userId+" course_availability");
-						/*while(sysobj.final_result().trim().equals("")) {
-	    				}*/
-	    				System.out.println(sysobj.final_result().trim());
-	    				ch=6;
+	    				ch=7;
 	    				break;
 	    		
 	    		case 4: sysobj.list_course(userId +" list_courses");
-						/*while(sysobj.final_result().trim().equals("")) {
-	    				}*/
-	    				System.out.println(sysobj.final_result().trim());
-	    				ch=6;
+
+	    				ch=7;
 	    				break;
 	    		
 	    		case 5:  
@@ -115,13 +116,19 @@ public class client {
 	    				String enrolled= sc.nextLine();
 	    				System.out.println("WHICH COURSE WOULD YOU LIKE TO TAKE IN PLACE(eg. COMP 6231 FALL):");
 	    				String swap=sc.nextLine();
-	    				enrolled=drop_course(userId,enrolled);
-	    				swap=add_course(userId,swap);
-	    				sysobj.swap_course(enrolled, swap);
+	    				String result= swap_course(userId, swap, enrolled);
+	    				sysobj.add_course(result);
+	    				//enrolled=drop_course(userId,enrolled);
+	    				//swap=add_course(userId,swap);
+	    				//sysobj.swap_course(enrolled, swap);
 	    				/*while(sysobj.final_result().trim().equals("")) {
 						}*/
-						System.out.println(sysobj.final_result().trim());
-	    				ch=6;
+						//System.out.println(sysobj.final_result().trim());
+	    				ch=7;
+	    				break;
+	    		case 6:
+	    				System.out.println(sysobj.final_result());
+	    				ch=7;
 	    				break;
 	    		
 	    		default:
@@ -132,6 +139,7 @@ public class client {
 	    				System.out.println("3. Check Availability");
 	    				System.out.println("4. List Courses");
 	    				System.out.println("5. Swap Courses");
+	    				System.out.println("6. FINAL RESULT");
 	    				System.out.println("0. LOGOUT.");
 						sc=new Scanner(System.in);
 
@@ -141,7 +149,7 @@ public class client {
 	    	}
 	    	
 	    }
-	    System.out.println(" LOGGING OUT ");
+	    System.out.println(" LOGGING OUT "); 
 	    
 	    sc.close();
 
@@ -159,6 +167,7 @@ public class client {
 		System.out.println("2. DELETE A COURSE.");
 		System.out.println("3. CHECK AVAILABILITY");
 		System.out.println("4. CHECK STUDENT PROFILE");
+		System.out.println("5. FINAL RESULT");
 		System.out.println("0. LOGOUT.");
 
 	    int ch = sc.nextInt(); 
@@ -170,8 +179,8 @@ public class client {
 	    				sc=new Scanner(System.in);
 	    				String course_Id = sc.nextLine();
 	    				course_Id=new_course(userId, course_Id );
-	    				System.out.println(sysobj.new_course(course_Id)); 
-	    			    ch=5;
+	    				sysobj.new_course(course_Id); 
+	    			    ch=6;
 	    			    break;
 	    		
 	    		case 2: 
@@ -181,21 +190,26 @@ public class client {
 						sc=new Scanner(System.in);
 	    				String course_drop = sc.nextLine();
 	    				course_drop = delete_course(userId, course_drop);
-	    				System.out.println(sysobj.delete_course(course_drop));
-	    				ch=5;
+	    				//System.out.println(sysobj.delete_course(course_drop));
+	    				ch=6;
 	    				break; 
 	    				
 	    		case 3: 
-	    				System.out.println(sysobj.course_availability(userId+" course_availability"));
-	    				ch=5;
+	    				sysobj.course_availability(userId+" course_availability");
+	    				ch=6;
     					break;
 	    		case 4: 
     					System.out.println("Enter Student Id: ");
     					sc = new Scanner(System.in);
     					String student = sc.nextLine();
     					student_menu(student,sysobj);
-    					
+    					ch=6;
     					break;
+    					
+	    		case 5:
+	    				System.out.println(sysobj.final_result());
+	    				ch=6;
+	    				break;
 					
 	    		default:	    					
 	    				
@@ -236,18 +250,19 @@ public class client {
 			System.out.println("Welcome to the DCRS system ");
 			System.out.println("Enter user Id: ");
 			//for (;;) {
-				system obj = systemHelper.narrow(ncRef.resolve_str("FRONT_END"));	
+				system obj = systemHelper.narrow(ncRef.resolve_str("FRONT_END"));	 
 				/**/
 				String aa = c.nextLine();
-				student_menu(aa, obj);
 				if(aa.equals("COMPA")|| aa.equals("SOENA")||aa.equals("INSEA")) {
 					if(aa.equals("COMPA")) {
+						
 						advisor_menu(aa, obj);
 				}else if(aa.contains("COMPS")|| aa.contains("SOENS")||aa.contains("INSES")) {
 					System.out.println(aa);	
 					student_menu(aa, obj);
 				}
 				System.out.println("-----------------------------------");
+				
 				/*for(int i=0;i<10;i++) {
 					System.out.println(obj.add_course(" the client--- WHAT IS GOING ON HERE... this is awesome" + i)+ "this is the 1st line");
 					while(obj.final_result().contains("&")) {

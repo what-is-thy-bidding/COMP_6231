@@ -15,7 +15,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class systemObj extends systemPOA { 
-	private ORB orb;
+	private ORB orb; 
 	public void setORB(ORB orb_val) { 
 		orb = orb_val;  
 	}
@@ -373,9 +373,11 @@ public class systemObj extends systemPOA {
 		return "";
 	}
 
-	
+	 
 	public String final_result() {
-		return FRONT_END.final_result();
+			//System.out.println("REPLY FROM THE CORBA " + FRONT_END.final_result());
+			return FRONT_END.result;
+
 	} 
 	
 	public String swap_course(String enrolled, String swap) {
@@ -420,3 +422,4 @@ public class systemObj extends systemPOA {
 	
 
 }
+ 

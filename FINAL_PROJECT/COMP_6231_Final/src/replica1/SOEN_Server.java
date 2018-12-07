@@ -26,17 +26,17 @@ public class SOEN_Server {
 	
 	public static void add_courses(){ //--------------------------> Addition of all courses in the server
 		
-		courses_availability fall_6441 = new courses_availability("SOEN 6441", "FALL",1);
+		/*courses_availability fall_6441 = new courses_availability("SOEN 6441", "FALL",1);
 		courses_availability winter_6441 = new courses_availability("SOEN 6441", "WINTER",2);
 		courses_availability summer_6441 = new courses_availability("SOEN 6441", "SUMMER",3);
 		courses.add(fall_6441);
 		courses.add(winter_6441);
 		courses.add(summer_6441);
-		
+		*/
 	}
 	
 	public static void add_student(){//---------------------------->Default addition of a STUDENT to the database
-		data_structure node=new data_structure("SOENS");
+		data_structure node=new data_structure("SOENS1010");
 		soen_student_list.add(node);
 	
 	}
@@ -728,11 +728,11 @@ public class SOEN_Server {
 					}
 				}
 				
-				if(input.contains("course_availability")) {
+				if(input.contains("availability")) {
 					data=course_availability();				
 				}
 				
-				if(input.contains("list_courses")) {
+				if(input.contains("schedule")) {
 					String array[]= input.split(" ");
 					String command= array[0];
 					String function= array[1];

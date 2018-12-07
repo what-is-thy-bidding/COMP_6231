@@ -100,16 +100,16 @@ public class sequencer {
 				System.out.println(input+"  -REQUEST from the FRONT END / request number= "+request_id);
 				send_multicast_request(input, request_id);
 				request_id++;
-				
-			}
+				 
+			} 
 			
 		}catch (SocketException e) {
 			System.out.println("Socket: " + e.getMessage()+" SEQUENCER");
 		} catch (IOException e) {
 			System.out.println("IO: " + e.getMessage());
 		} finally {
-			if (aSocket != null)
-				aSocket.close();
+			if (aSocket != null) 
+				aSocket.close(); 
 		}
 
 		

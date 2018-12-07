@@ -92,7 +92,6 @@ public class FRONT_END {
 	public static boolean check= true;
 	public static LinkedList<replica_replies> replies= new LinkedList<replica_replies>();
 	public static LinkedList<Integer> software_failure_id=new LinkedList<Integer>();
-
  	public static void write_to_file(request_information record) throws IOException {
 		try {
 			Writer output= null;
@@ -110,10 +109,19 @@ public class FRONT_END {
 
 	
 	public static void read_from_file(int replica_number, request_information[] array) throws IOException {
+		for(int i=0;i<array.length;i++) {
+			System.out.println("these are all the things in the array");
+			System.out.println(array.length);
+			System.out.println(array[i].get_request_id());
+		}
+			
 		
 		BufferedReader br= new BufferedReader(new FileReader(file1));
 		String st;			
 		request_information request= new request_information();
+		if(replica_number==3) {
+			execute_request();
+		}
 		while((st=br.readLine())!=null) {
 			if(st.contains("REQUEST_NUMBER=")) {
 				st= st.replaceAll("REQUEST_NUMBER=", "");
@@ -157,6 +165,7 @@ public class FRONT_END {
 					
 						
 				}else if(replica_number==3) {
+					
 					for(int i=0;i<array.length;i++) {
 						if(array[i].get_request_id()==request.get_request_id()) {
 								request.FRONT_END_INSERTION=true;
@@ -167,7 +176,9 @@ public class FRONT_END {
 					}
 					send_replica3(request);
 				
-				}else if(replica_number==4) {
+				}
+				
+				else if(replica_number==4) {
 					for(int i=0;i<array.length;i++) {
 						if(array[i].get_request_id()==request.get_request_id()) {
 								request.FRONT_END_INSERTION=true;
@@ -196,7 +207,7 @@ public class FRONT_END {
 		return bos.toByteArray();
 
 	}	
-	
+	 
 	 
 	
 	// if the size of the list has gotten more than 3, then there is an error
@@ -212,9 +223,9 @@ public class FRONT_END {
 					replica_2++;
 				}else if(!replies.get(i).replica_3) {
 					replica_3++;
-				}else if(!replies.get(i).replica_4) {
+				}/*else if(!replies.get(i).replica_4) {
 					replica_4++;
-				}
+				}*/
 				
 				if(replica_1>=3) {
 					
@@ -285,7 +296,13 @@ public class FRONT_END {
 							request_information [] array= new request_information[replies.size()];
 							for(int j=0;j<array.length;j++) {
 								request_information req= new request_information();
-								req.set_request_id(replies.get(j).REPLICA1_reply.get_request_id());
+								if(replies.get(j).replica_1) {
+									req.set_request_id(replies.get(j).REPLICA1_reply.get_request_id());
+								}else {
+									req.set_request_id(replies.get(j).REPLICA2_reply.get_request_id());
+								}
+									
+								
 								array[j]=req;
 								//System.out.println(array[j].get_request_id()+"********************");
 							}
@@ -302,7 +319,7 @@ public class FRONT_END {
 					break;
 				
 				
-				}else if(replica_4>=3) {
+				}/*else if(replica_4>=3) {
 					System.out.println("REPLICA 4 IS NOT RESPONSIVE");
 					String check=pulse_receiver();
 					while(true) {
@@ -327,7 +344,7 @@ public class FRONT_END {
 					}
 					System.out.println("THE REPLICA 4 HAS BEEN REACTIVATED");
 					break;
-				}
+				}*/
 			}
 			//execution=0;// CHANGE THIS CODE IF NOT WORKING FROM THE CRASH
 			
@@ -370,13 +387,13 @@ public class FRONT_END {
 				node.replica_3=true;
 				replies.add(node);
 				System.out.println("1st insertion");
-			}else if(reply.get_replica_id()==4 && reply.FRONT_END_INSERTION==true) {
+			}/*else if(reply.get_replica_id()==4 && reply.FRONT_END_INSERTION==true) {
 				node.REPLICA4_reply= reply;
 				node.request_number= reply.get_request_id();
 				node.replica_4=true;
 				replies.add(node);
 				System.out.println("1st insertion");
-			}/**/
+			}*/
 			
 		}else {// if the list contains at least 1 node
 			boolean check=false;
@@ -398,12 +415,12 @@ public class FRONT_END {
 						replies.get(i).replica_3=true;
 						System.out.println("2nd insertion");
 						break;
-					}else if(reply.get_replica_id()==4 && reply.FRONT_END_INSERTION==true) {
+					}/*else if(reply.get_replica_id()==4 && reply.FRONT_END_INSERTION==true) {
 						replies.get(i).REPLICA4_reply=reply;
 						replies.get(i).replica_4=true;
 						System.out.println("2nd insertion");
 						break;
-					}/**/
+					}*/
 					
 					
 				}
@@ -429,12 +446,12 @@ public class FRONT_END {
 					node.request_number= reply.get_request_id();
 					node.replica_3=true;
 					replies.addLast(node);
-				}else if(reply.get_replica_id()==4 && reply.FRONT_END_INSERTION==true) {
+				}/*else if(reply.get_replica_id()==4 && reply.FRONT_END_INSERTION==true) {
 					node.REPLICA4_reply= reply;
 					node.request_number= reply.get_request_id();
 					node.replica_4=true;
 					replies.addLast(node);
-				}/**/
+				}*/
 					
 			}
 			
@@ -481,8 +498,15 @@ public class FRONT_END {
 			request_information [] array= new request_information[replies.size()];
 			for(int j=0;j<array.length;j++) {
 				request_information req= new request_information();
-				req.set_request_id(replies.get(j).REPLICA1_reply.get_request_id());
+				
+				if(replies.get(j).replica_1) {
+					req.set_request_id(replies.get(j).REPLICA1_reply.get_request_id());
+				}else {
+					req.set_request_id(replies.get(j).REPLICA3_reply.get_request_id());
+				}
+				System.out.println(req.get_request_id()+ "---------------------------------------------");
 				array[j]=req;// array containing all the failed requests
+			}	
 				//System.out.println(array[j].get_request_id()+"********************");
 				if(software_fail_execution<1) {
 					read_from_file(replica_id,array);
@@ -490,7 +514,7 @@ public class FRONT_END {
 
 				}
 
-			}
+			
 		}else if(replica_id==3) {
 			send_replica3(request);
 			request_information [] array= new request_information[replies.size()];
@@ -506,7 +530,7 @@ public class FRONT_END {
 				}
 
 			}
-		}else if(replica_id==4) {
+		}/*else if(replica_id==4) {
 			send_replica4(request);
 			request_information [] array= new request_information[replies.size()];
 			for(int j=0;j<array.length;j++) {
@@ -520,7 +544,7 @@ public class FRONT_END {
 				}
 
 			}
-		}
+		}*/
 		
 		
 		
@@ -536,21 +560,21 @@ public class FRONT_END {
 			System.out.println(replies.get(i).request_number+ " ***REQUEST NUMBER");
 			System.out.println(i+" loop");
 			if(replies.get(i).replica_1) {
-				System.out.println("REPLICA 1 DATA: REQUEST- "+replies.get(i).REPLICA1_reply.get_request()+", REPLICA ID- "+ replies.get(i).REPLICA1_reply.get_replica_id()+", REPLICA BOOLEAN- " +replies.get(i).replica_1);
+				System.out.println("REPLICA 1 DATA: REQUEST- "+replies.get(i).REPLICA1_reply.get_request().trim()+", REPLICA ID- "+ replies.get(i).REPLICA1_reply.get_replica_id()+", REPLICA BOOLEAN- " +replies.get(i).replica_1+ ", REPLICA RESULT BOOLEAN = "+replies.get(i).REPLICA1_reply.result);
 
 			}
 			if(replies.get(i).replica_2) {
-				System.out.println("REPLICA 2 DATA: REQUEST- "+replies.get(i).REPLICA2_reply.get_request()+", REPLICA ID- "+ replies.get(i).REPLICA2_reply.get_replica_id()+", REPLICA BOOLEAN- " +replies.get(i).replica_2);
+				System.out.println("REPLICA 2 DATA: REQUEST- "+replies.get(i).REPLICA2_reply.get_request().trim()+", REPLICA ID- "+ replies.get(i).REPLICA2_reply.get_replica_id()+", REPLICA BOOLEAN- " +replies.get(i).replica_2+ ", REPLICA RESULT BOOLEAN = "+replies.get(i).REPLICA2_reply.result);
 			}
 			System.out.println();	
 			if(replies.get(i).replica_3) {
-				System.out.println("REPLICA 3 DATA: REQUEST- "+replies.get(i).REPLICA3_reply.get_request()+", REPLICA ID- "+ replies.get(i).REPLICA3_reply.get_replica_id()+", REPLICA BOOLEAN- " +replies.get(i).replica_3);
+				System.out.println("REPLICA 3 DATA: REQUEST- "+replies.get(i).REPLICA3_reply.get_request().trim()+", REPLICA ID- "+ replies.get(i).REPLICA3_reply.get_replica_id()+", REPLICA BOOLEAN- " +replies.get(i).replica_3+ ", REPLICA RESULT BOOLEAN = "+replies.get(i).REPLICA3_reply.result);
 			}
 			System.out.println();	
-			if(replies.get(i).replica_4) {
+			/*if(replies.get(i).replica_4) {
 				System.out.println("REPLICA 4 DATA: REQUEST- "+replies.get(i).REPLICA4_reply.get_request()+", REPLICA ID- "+ replies.get(i).REPLICA4_reply.get_replica_id()+", REPLICA BOOLEAN- " +replies.get(i).replica_4);
 			}
-			System.out.println();/*	*/
+			System.out.println();	*/
 		}
 		
 		System.out.println("---------------end of list---------------------");
@@ -676,7 +700,7 @@ public class FRONT_END {
 	
 	
 	//Send to the REPLICAS
-	public static void send_replica1(request_information backup) {// IN THE CASE THAT replica1 has Crashed!
+	public static void send_replica1(request_information backup) {// IN THE CASE THAT replica1 has Crashed! 
 		DatagramSocket aSocket = null;
 		try{		
 
@@ -735,7 +759,8 @@ public class FRONT_END {
 	public static void send_replica3(request_information backup) {// IN THE CASE THAT replica1 has Crashed!
 		DatagramSocket aSocket = null;
 		try{		
-
+			System.out.println(backup.get_request());
+			System.out.println("why is the code not woeking?");
 			aSocket = new DatagramSocket();
 			byte [] message=getBytes(backup);
 			InetAddress aHost = InetAddress.getByName("230.1.1.6"); 
@@ -786,13 +811,30 @@ public class FRONT_END {
 		}
 	}
 	
-	public static  String final_result() {
+	public static  String final_result() throws IOException {
 		//if both the booleans are true then compare the results and send the common answer
 		// find the size of the list and if the ones in the beginning aren't getting a reply then send error messages for the previous requests
+		int software2=0;
+		int software3=0;
 		for(int i=0; i<replies.size(); i++) {
-			if(replies.get(i).replica_1==true && replies.get(i).replica_2==true && replies.get(i).replica_3==true && replies.get(i).replica_4==true) {
+			if(replies.get(i).replica_1==true && replies.get(i).replica_2==true && replies.get(i).replica_3==true /*&& replies.get(i).replica_4==true*/) {
 				//COUNTING THE NUMBER OF MAJORITY results
-				int count=1;
+				if(replies.get(i).REPLICA1_reply.result==replies.get(i).REPLICA2_reply.result && replies.get(i).REPLICA1_reply.result==replies.get(i).REPLICA3_reply.result) {
+					System.out.println(" THE REQUEST REPLIES CAN BE SENT TO THE CLIENT");
+					System.out.println(replies.get(i).REPLICA1_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA1_reply.get_replica_id());
+					System.out.println(replies.get(i).REPLICA2_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA2_reply.get_replica_id());
+					System.out.println(replies.get(i).REPLICA3_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA3_reply.get_replica_id());
+					//System.out.println(replies.get(i).REPLICA4_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA4_reply.get_replica_id());
+					result= replies.get(i).REPLICA1_reply.get_request();					
+					replies.remove(i);
+					System.out.println(replies.size()+ " the size of the list after deletion");
+					
+				}else if(replies.get(i).REPLICA1_reply.result!=replies.get(i).REPLICA2_reply.result) {
+					software2++;
+				}else if(replies.get(i).REPLICA1_reply.result!=replies.get(i).REPLICA3_reply.result) {
+					software3++;
+				}
+				/*int count=1;
 				if(replies.get(i).REPLICA1_reply.result==replies.get(i).REPLICA2_reply.result) {
 					count++;
 				}else {
@@ -805,34 +847,25 @@ public class FRONT_END {
 					software_failure_id.add(3);
 				}
 				
-				if(replies.get(i).REPLICA1_reply.result==replies.get(i).REPLICA4_reply.result) {
+				/*if(replies.get(i).REPLICA1_reply.result==replies.get(i).REPLICA4_reply.result) {
 					count++;
 				}else {
 					software_failure_id.add(4);
-				}
+				}*/
+				//System.out.println(" the count " + count);
 				
-				
-				if(count==4) {
+				//if(count==3) {
 					//if(replies.get(i).REPLICA1_reply.get_request().equals(replies.get(i).REPLICA2_reply.get_request())) {// this is if the reply that have arrived match each other
-					System.out.println(" THE REQUEST REPLIES CAN BE SENT TO THE CLIENT");
-					System.out.println(replies.get(i).REPLICA1_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA1_reply.get_replica_id());
-					System.out.println(replies.get(i).REPLICA2_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA2_reply.get_replica_id());
-					System.out.println(replies.get(i).REPLICA3_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA3_reply.get_replica_id());
-					System.out.println(replies.get(i).REPLICA4_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA4_reply.get_replica_id());
+					
+				//}else if(count==2) {
+					//System.out.println(" THE REQUEST REPLIES CAN BE SENT TO THE CLIENT");
+					//System.out.println(replies.get(i).REPLICA1_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA1_reply.get_replica_id());
+					//System.out.println(replies.get(i).REPLICA2_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA2_reply.get_replica_id());
+					//System.out.println(replies.get(i).REPLICA3_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA3_reply.get_replica_id());
+					//System.out.println(replies.get(i).REPLICA4_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA4_reply.get_replica_id());
 
-					result= replies.get(i).REPLICA1_reply.get_request();					
+					//result= replies.get(i).REPLICA1_reply.get_request();
 				//}
-					replies.remove(i);
-					System.out.println(replies.size()+ " the size of the list after deletion");
-				}else if(count==3) {
-					System.out.println(" THE REQUEST REPLIES CAN BE SENT TO THE CLIENT");
-					System.out.println(replies.get(i).REPLICA1_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA1_reply.get_replica_id());
-					System.out.println(replies.get(i).REPLICA2_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA2_reply.get_replica_id());
-					System.out.println(replies.get(i).REPLICA3_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA3_reply.get_replica_id());
-					System.out.println(replies.get(i).REPLICA4_reply.get_request() + " - REPLICA NUMBER "+replies.get(i).REPLICA4_reply.get_replica_id());
-
-					result= replies.get(i).REPLICA1_reply.get_request();
-				}
 				
 				//String final_result=result;
 				//result="&&&&";
@@ -840,13 +873,21 @@ public class FRONT_END {
 				//return final_result;
 				//break; 
 			}
+			if(software2>=3) {
+				check_software_failure(2);
+			}else if(software3>=3) {
+				check_software_failure(3);
+
+			}
 		}
+		System.out.println(result);
+		
 		
 		return result;
 	}
 
 	
-	public static void send_replica3_special_requests(String backup) {// IN THE CASE THAT replica1 has Crashed!
+	/*public static void send_replica3_special_requests(String backup) {// IN THE CASE THAT replica1 has Crashed!
 		DatagramSocket aSocket = null;
 		try{		
 			
@@ -871,16 +912,38 @@ public class FRONT_END {
 		finally{
 			if(aSocket != null) aSocket.close(); 
 		}
-	}
+	}*/
 	
 	public static void execute_request() {
-		send_replica3_special_requests("COMPS1010");		
+		request_information request= new request_information();
+		
+		
+		request.set_command("adduser COMPS1010");
+		request.result=true;
+		request.FRONT_END_INSERTION=false;
+		request.set_replica(3);
+		request.set_request_id(0);
+		send_replica3(request);	
+		
+		request.set_command("adduser SOENS1010");
+		request.result=true;
+		request.FRONT_END_INSERTION=false;
+		request.set_replica(3);
+		request.set_request_id(0);
+		send_replica3(request);	
+		
+		request.set_command("adduser INSES1010");
+		request.result=true;
+		request.FRONT_END_INSERTION=false;
+		request.set_replica(3);
+		request.set_request_id(0);
+		send_replica3(request);	
 		
 	}
 	
 	
 	public static void main(String[] args) throws IOException {
-		//execute_request();
+		execute_request();
 		System.out.println("THE frontEnd_requests.txt is being deleted");
 		    PrintWriter writer= new PrintWriter(file1);
 		    writer.print("");
@@ -921,7 +984,7 @@ public class FRONT_END {
    
         /**/
        
-        /* ORB orb = ORB.init(args, null);
+        /*ORB orb = ORB.init(args, null);
 		// get reference to rootpoa &amp; activate
 		try {
 		 	
@@ -949,8 +1012,8 @@ public class FRONT_END {
 			// wait for invocations from clients 
 				orb.run(); 
 			
-			 
-		}
+			  
+		} 
 		  
 
 		catch (Exception e) {
