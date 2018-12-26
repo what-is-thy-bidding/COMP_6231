@@ -1,0 +1,15 @@
+
+module systemApp
+{
+	interface system
+	{
+		string course_availability(in string command);
+		string add_course(in string command);
+		string drop_course(in string command);
+		string new_course(in string command);
+		string delete_course(in string command);
+		string swap_course(in string command1, in string command2);	
+		string list_course(in string command);
+		oneway void shutdown();
+	};
+};
